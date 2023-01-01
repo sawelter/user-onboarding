@@ -20,7 +20,10 @@ export default function Form(props) {
         const { name, value, type, checked } = event.target;
         const valueToUse = type === "checkbox" ? checked : value;
         setFormValues({...formValues, [name]: valueToUse})
-        console.log(formValues.terms_of_service);
+    }
+
+    const submit = (event) => {
+
     }
 
     return (
@@ -74,6 +77,7 @@ export default function Form(props) {
                     />
                 </p>
             </label>
+            <button onClick={submit}>submit</button>
         </StyledForm>
     );
 }
