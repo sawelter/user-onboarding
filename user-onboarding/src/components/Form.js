@@ -10,30 +10,46 @@ const StyledForm = styled.form`
         margin-left: 10px;
         margin: 10px;
     }
+
+    p {
+        color: red;
+    }
+    .agree {
+        color: black;
+    }
 `;
 
 export default function Form(props) {
+    const { change, submit, errors } = props;
+    const { first_name, last_name, email, password, tos } = props.formValues;
 
-    const { formValues, setFormValues } = props;
-
-    const onChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        const valueToUse = type === "checkbox" ? checked : value;
-        setFormValues({...formValues, [name]: valueToUse})
+    const onChange = event => {
+        const { name, value, checked, type } = event.target;
+        const newVal = type === 'checkbox' ? checked : value;
+        change(name, newVal);
     }
 
-    const submit = (event) => {
-
+    const onSubmit = event => {
+        event.preventDefault();
+        submit();
     }
-
+    
     return (
-        <StyledForm>
+        <StyledForm onSubmit={onSubmit}>
+
+            {errors.first_name ? <p>{errors.first_name}</p> : ""}
+            {errors.last_name ? <p>{errors.last_name}</p> : ""}
+            {errors.email ? <p>{errors.email}</p> : ""}
+            {errors.password ? <p>{errors.password}</p> : ""}
+            {errors.tos ? <p>{errors.tos}</p> : ""}
+
+
             {/******** NAME *********/}
             <label>First Name
                 <input 
                     type="text"
                     name="first_name"
-                    value={formValues.first_name}
+                    value={first_name}
                     onChange={onChange}
                 />
             </label>
@@ -41,7 +57,7 @@ export default function Form(props) {
             <input 
                     type="text"
                     name="last_name"
-                    value={formValues.last_name}
+                    value={last_name}
                     onChange={onChange}
                 />
             </label>
@@ -51,7 +67,7 @@ export default function Form(props) {
             <input 
                     type="text"
                     name="email"
-                    value={formValues.email}
+                    value={email}
                     onChange={onChange}
                 />
             </label>
@@ -61,23 +77,23 @@ export default function Form(props) {
                 <input 
                     type="text"
                     name="password"
-                    value={formValues.password}
+                    value={password}
                     onChange={onChange}
                 />
             </label>
 
             {/******** TERMS OF SERVICE *********/}
             <label>Terms of Service
-                <p>Agree
+                <p className="agree">Agree
                     <input 
                         type="checkbox"
-                        name="terms_of_service"
-                        value={formValues.terms_of_service}
+                        name="tos"
+                        checked={tos}
                         onChange={onChange}
                     />
                 </p>
             </label>
-            <button onClick={submit}>submit</button>
+            <button onClick={onSubmit}>submit</button>
         </StyledForm>
     );
 }
