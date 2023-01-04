@@ -56,9 +56,10 @@ function App() {
       <Form formValues={formValues} change={handleChange} submit={handleSubmit} errors={formErrors} />
 
       {users.map(user => {
-        <div key={user.id}>
+        return <div key={user.id}>
           <p>{user.first_name} {user.last_name}</p>
           <p>{user.email}</p>
+          <p>------------</p>
         </div>
       })}
     </div>
