@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const formSchema = yup.object.shape({
+const formSchema = yup.object().shape({
     first_name: yup
         .string()
         .trim()
@@ -23,8 +23,9 @@ const formSchema = yup.object.shape({
         .trim()
         .min(8, "Minimum password length is eight characters.")
         .max(20, "Maximum password length is 20 characters."),
-    terms_of_service: yup
-        .boolean(),
+    tos: yup
+        .boolean()
+        .oneOf([true], "This field must be checked."),
 });
 
 

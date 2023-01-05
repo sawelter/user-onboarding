@@ -17,6 +17,11 @@ const StyledForm = styled.form`
     .agree {
         color: black;
     }
+
+    button {
+        width: 10%;
+    }
+
 `;
 
 export default function Form(props) {
@@ -93,7 +98,7 @@ export default function Form(props) {
                     />
                 </p>
             </label>
-            <button onClick={onSubmit}>submit</button>
+            <button onClick={onSubmit} id="submitBtn">submit</button>
         </StyledForm>
     );
 }
