@@ -5,6 +5,10 @@ const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 20px;
+    width: 50%;
+    border: 1px solid black;
+    border-radius: 10px;
+
 
     input {
         margin-left: 10px;
@@ -25,7 +29,7 @@ const StyledForm = styled.form`
 `;
 
 export default function Form(props) {
-    const { change, submit, errors, disabled } = props;
+    const { change, submit, errors } = props;
     const { first_name, last_name, email, password, tos } = props.formValues;
 
     const onChange = event => {
@@ -37,6 +41,10 @@ export default function Form(props) {
     const onSubmit = event => {
         event.preventDefault();
         submit();
+    }
+
+    const isDisabled = () => {
+        return !first_name.trim() || !last_name.trim() || !email.trim() || !password.trim() || !tos;
     }
     
     return (
@@ -98,7 +106,7 @@ export default function Form(props) {
                     />
                 </p>
             </label>
-            <button disabled={disabled} id="submitBtn">submit</button>
+            <button disabled={true} id="submitBtn">submit</button>
         </StyledForm>
     );
 }

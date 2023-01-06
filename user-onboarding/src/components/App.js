@@ -5,6 +5,24 @@ import React, { useState, useEffect } from 'react';
 import formSchema from '../validation/formSchema.js';
 import axios from 'axios';
 import * as yup from "yup";
+import styled from 'styled-components';
+
+const Users = styled.div`
+  margin: 15px;
+  padding: 15px;
+  border: 2px solid black;
+  border-radius: 10px;
+  drop-shadow: 1, 1, 1, 1;
+  width: 50%;
+
+  .user {
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 15px;
+  }
+`;
+
 
 function App() {
 
@@ -27,6 +45,7 @@ function App() {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialErrorValues);
   const [users, setUsers] = useState([]);
+  const [disabled, setDisabled] = useState(true);
 
   const handleChange = (name, value) => {
     validate(name, value);
@@ -51,17 +70,27 @@ function App() {
       .catch(err => setFormErrors({...formErrors, [name]: err.errors[0]}))
   }
 
+  useEffect(() => {
+
+    formSchema.isValid(formValues)
+      .then(valid => {
+        setDisabled(!valid);
+      });
+}, [formValues])
+
   return (
     <div>
-      <Form formValues={formValues} change={handleChange} submit={handleSubmit} errors={formErrors} />
-
-      {users.map(user => {
-        return <div key={user.id}>
-          <p>{user.first_name} {user.last_name}</p>
-          <p>{user.email}</p>
-          <p>------------</p>
-        </div>
-      })}
+      <Form formValues={formValues} change={handleChange} submit={handleSubmit} disabled={disabled} errors={formErrors} />
+      <Users>
+        <h3>Users</h3>
+        {users.map(user => {
+          return <div className="user" key={user.id}>
+            <p>Name: {user.first_name} {user.last_name}</p>
+            <p>Email: {user.email}</p>
+            <p>Password: {user.password}<br/>(Don't worry this is super secure!)</p>
+          </div>
+        })}
+      </Users>
     </div>
   );
 }
